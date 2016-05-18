@@ -47,17 +47,14 @@ LRESULT CALLBACK MyEditProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 		case IMN_OPENCANDIDATE:
 		case IMN_CHANGECANDIDATE:
-		{
-			PostMessage(hWnd, WM_APP, 0, 0);
-		}
-		break;
+			SendMessage(hWnd, WM_APP, 0, 0);
+			break;
 		case IMN_CLOSESTATUSWINDOW:
 		case IMN_CLOSECANDIDATE:
-		{
 			SendMessage(hList, LB_RESETCONTENT, 0, 0);
+			break;
 		}
 		break;
-		}
 	default:
 		break;
 	}
