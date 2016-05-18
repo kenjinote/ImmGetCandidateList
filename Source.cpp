@@ -31,10 +31,9 @@ LRESULT CALLBACK MyEditProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					{
 						LPCANDIDATELIST lpCandidateList = (LPCANDIDATELIST)GlobalLock(hMem);
 						ImmGetCandidateListW(hImc, 0, lpCandidateList, dwSize);
-						TCHAR szCandidate[1024];
-						for (int i = 0; i < lpCandidateList->dwCount; ++i)
+						for (DWORD i = 0; i < lpCandidateList->dwCount; ++i)
 						{
-							SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)((LPBYTE)lpCandidateList + lpCandidateList->dwOffset[i]));// ((LPTSTR)lpcdl + lpcdl->dwOffset[i]));
+							SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)((LPBYTE)lpCandidateList + lpCandidateList->dwOffset[i]));
 						}
 						GlobalFree(hMem);
 					}
@@ -47,8 +46,15 @@ LRESULT CALLBACK MyEditProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case IMN_OPENCANDIDATE:
+		case IMN_CHANGECANDIDATE:
 		{
 			PostMessage(hWnd, WM_APP, 0, 0);
+		}
+		break;
+		case IMN_CLOSESTATUSWINDOW:
+		case IMN_CLOSECANDIDATE:
+		{
+			SendMessage(hList, LB_RESETCONTENT, 0, 0);
 		}
 		break;
 		}
